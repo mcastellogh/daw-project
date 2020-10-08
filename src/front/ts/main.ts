@@ -61,16 +61,17 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
     }
     handleEvent(evt:Event):void{
         let b:HTMLElement= this.myf.getElementByEvent(evt);
-        console.log(`Se hizo click"${evt.type}"`);
-        console.log("Objeto:"+this);
+        console.log(`Se hizo click, evento: ${evt.type}`);
+        console.log("Objeto:"+this.main);
         console.log("HTMLEement:"+b.id);
         
-        if (b.id=="button"){
+        if (b.id=="boton"){
             this.counter ++;
             b.textContent=`Click ${this.counter}`;
+            console.log(`Pulsacion nro: ${this.counter}`)
         }else{
             let state:boolean = this.view.getSwitchStateById(b.id);
-            let data={"id":`${b.id}`,"state":state,"Nombre":name};
+            let data={"id":`${b.id}`,"state":state};
             this.myf.requestPOST("https://cors-anywhere.herokuapp.com/https://postman-echo.com/post",data,this);
         }
         
