@@ -12,6 +12,8 @@ function getHandler(req,res){
     console.log(myjson[id-1]);
     res.send(myjson[id-1]);
 }
+
+
 function postHandler(req,res){
     let id=req.query.id;    //Obtengo la id que me postea el cliente
     let st=req.query.st;    //Obtengo el estado que me postea el cliente

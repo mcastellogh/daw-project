@@ -48,7 +48,7 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
         //b.textContent="Hola Mundo";
         //b.addEventListener("click",()=>{alert("Evento!")}); //this.evento);
         this.myf.configEventLister ("click", "boton", this);
-        this.myf.requestGET ("Devices.txt", this);
+        this.myf.requestGET ("http://192.168.1.41:8000/dispositivos", this);
 
     }
     mostrarUsers(users:Array<User>):void{
@@ -72,7 +72,8 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
         }else{
             let state:boolean = this.view.getSwitchStateById(b.id);
             let data={"id":`${b.id}`,"state":state};
-            this.myf.requestPOST("https://cors-anywhere.herokuapp.com/https://postman-echo.com/post",data,this);
+            //this.myf.requestPOST("https://cors-anywhere.herokuapp.com/https://postman-echo.com/post",data,this);
+            this.myf.requestPOST("http://localhost:8000/dispositivos",data,this);
         }
         
         
