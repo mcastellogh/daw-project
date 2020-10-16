@@ -1,18 +1,90 @@
 ![header](doc/header.png)
 
-# DAW Project Template
+Desarrollo de una aplicación web 
+- [Instalación del template y demás servicios](#instalación-del-template-y-demás-servicios)
+  - [Docker](#docker)
+  - [Docker-compose](#docker-compose)
+- [Infraestructura](#infraestructura)
+- [Diagrama conceptual de la aplicación](#diagrama-conceptual-de-la-aplicación)
+- [Frontend](#frontend)
+- [Backend](#backend)
+- [Base de datos](#base-de-datos)
+- [Licence](#licence)
 
-Authors:
+# Instalación del template y demás servicios
+Se hará un fork del repositiorio de GitHub proporcionado por los docentes: https://github.com/ce-iot/daw-project-template
+Luego se insatalarán docker y Docker-compose
 
-* Agustin Bassi
-* Brian Ducca
-* Santiago Germino
+## Docker
+Se instalará docker y docker-compose, teniendo en cuenta que la distro deberá ser debian 9 o superior.
 
-Template project for Web Applications Development.
+```sh
+sudo apt-get update 
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+```
+Importar clave y verificar huella
+```sh
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg |sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+```
+Agregar repositorio de docker e instalar
+```sh
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+Configurar permisos y grupo
+```sh
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo gpasswd -a $USER docker
+```
+Reiniciar servicio
+```sh
+sudo service docker restart
+```
+Verificar la instalación
+```sh
+sudo docker run hello-world
+```
+Si todo salió bien, se deberá mostrar por consola el mnensaje: `Hello from docker!`
 
-To read all project documentation, please go to its wiki in [this link](https://github.com/ce-iot/daw-project-template/wiki).
+## Docker-compose
 
-## Licence
+Descargar el ejecutable y dar permisos de ejecicuión
+```sh
+sudo curl -L
+"https://github.com/docker/compose/releases/download/1.26.2/docker-compose
+-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+``` 
+Verificación
+```sh
+docker-compose --version
+```
+Deberá mostrar la versión instalada `V1.26.2`
+
+Se deberá reiniciar el sistema para que los servicios instalados arranquen con las configuraiones correspondientes
+
+
+
+
+bajar imagenes
+comando:
+levantar servicio
+comando:
+
+# Infraestructura
+
+# Diagrama conceptual de la aplicación
+
+# Frontend
+
+# Backend
+
+# Base de datos
+
+# Licence
 
 This project is published under GPLV3+ licence.
 

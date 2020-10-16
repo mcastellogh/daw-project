@@ -19,7 +19,7 @@ class MyFramework{
         xhr = new XMLHttpRequest();
 
         xhr.onreadystatechange = function(){
-            console.log(url, xhr.readyState,xhr.status);
+            //console.log(url, xhr.readyState,xhr.status);
             if(xhr.readyState == 4){
                 if(xhr.status == 200){
                     listener.handleGETResponse(xhr.status,xhr.responseText);
