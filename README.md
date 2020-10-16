@@ -1,7 +1,8 @@
 ![header](doc/header.png)
 
 Desarrollo de una aplicación web 
-- [Instalación del template y demás servicios](#instalación-del-template-y-demás-servicios)
+- [Instalación](#instalación)
+  - [Template de la aplicación](#template-de-la-aplicación)
   - [Docker](#docker)
   - [Docker-compose](#docker-compose)
 - [Infraestructura](#infraestructura)
@@ -11,9 +12,13 @@ Desarrollo de una aplicación web
 - [Base de datos](#base-de-datos)
 - [Licence](#licence)
 
-# Instalación del template y demás servicios
-Se hará un fork del repositiorio de GitHub proporcionado por los docentes: https://github.com/ce-iot/daw-project-template
-Luego se insatalarán docker y Docker-compose
+# Instalación 
+## Template de la aplicación
+
+Se hará un fork del repositiorio de GitHub proporcionado por los docentes:
+
+https://github.com/ce-iot/daw-project-template.
+
 
 ## Docker
 Se instalará docker y docker-compose, teniendo en cuenta que la distro deberá ser debian 9 o superior.
@@ -47,15 +52,14 @@ Verificar la instalación
 ```sh
 sudo docker run hello-world
 ```
-Si todo salió bien, se deberá mostrar por consola el mnensaje: `Hello from docker!`
+Si todo salió bien, se deberá mostrar por consola el mensaje: `Hello from docker!`
 
 ## Docker-compose
 
-Descargar el ejecutable y dar permisos de ejecicuión
+Descargar el ejecutable y dar permisos de ejecución
 ```sh
 sudo curl -L
-"https://github.com/docker/compose/releases/download/1.26.2/docker-compose
--$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+"https://github.com/docker/compose/releases/download/1.26.2/docker-compose -$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 ``` 
 Verificación
@@ -64,13 +68,19 @@ docker-compose --version
 ```
 Deberá mostrar la versión instalada `V1.26.2`
 
-Se deberá reiniciar el sistema para que los servicios instalados arranquen con las configuraiones correspondientes
+Se deberá reiniciar el sistema para que los servicios instalados arranquen con las configuraciones correspondientes
 
 
 
 
-bajar imagenes
-comando:
+Descargar imagenes
+```sh
+docker pull harmish/typescript
+docker pull mysql:5.7
+docker pull phpmyadmin/phpmyadmin
+docker pull abassi/nodejs-server:10.0-dev
+```
+
 levantar servicio
 comando:
 
