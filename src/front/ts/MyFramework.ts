@@ -55,7 +55,7 @@ class MyFramework{
         // envio Formdata en body de request (Usar con Apache,PythonWS,etc.)
         //let formData:FormData = new FormData();
         //for(let key in data) {
-          //  formData.append(key, data[key]);
+        //    formData.append(key, data[key]);
         //}
         //xhr.send(formData);
         //______________________________

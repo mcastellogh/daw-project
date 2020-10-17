@@ -26,6 +26,7 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
     main():void{
         
         console.log("Mensaje desde main");
+        //-- Prueba con arrays
         let usuarios:Array<User>;
         usuarios=new Array<User>();
         usuarios.push(new User(1,"MAC","mac@gmail.com"));
@@ -41,13 +42,15 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
             usuarios[i].printInfo();
         }*/
         this.mostrarUsers(usuarios);
+
+        
         this.myf = new MyFramework();
-        let b:HTMLElement= document.getElementById("boton");
+        let b:HTMLElement= document.getElementById("boton1");
         b.addEventListener("click",this);
         this.view=new ViewMainPage(this.myf);
         //b.textContent="Hola Mundo";
         //b.addEventListener("click",()=>{alert("Evento!")}); //this.evento);
-        this.myf.configEventLister ("click", "boton", this);
+        this.myf.configEventLister ("click", "boton1", this);
         this.myf.requestGET ("http://192.168.1.41:8000/dispositivos", this);
 
     }
@@ -62,24 +65,24 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
     handleEvent(evt:Event):void{
         let b:HTMLElement= this.myf.getElementByEvent(evt);
         console.log(`Se hizo click, evento: ${evt.type}`);
-        console.log("Objeto:"+this.main);
+        //console.log("Objeto:"+this.main);
         console.log("HTMLEement:"+b.id);
         
-        if (b.id=="boton"){
+        if (b.id=="boton1"){
             this.counter ++;
-            b.textContent=`Click ${this.counter}`;
+            //b.textContent=`ClicK ${this.counter}`;
             console.log(`Pulsacion nro: ${this.counter}`)
         }else{
             let state:boolean = this.view.getSwitchStateById(b.id);
             let data={"id":`${b.id}`,"state":state};
             //this.myf.requestPOST("https://cors-anywhere.herokuapp.com/https://postman-echo.com/post",data,this);
-            this.myf.requestPOST("http://localhost:8000/dispositivos",data,this);
+            this.myf.requestPOST("http://192.168.1.41:8000/dispositivos",data,this);
         }
         
         
     }
     handleGETResponse(status:number, response:string):void{//callback que se llama cuando requestGET tiene respuesta
-        console.log("Respuesta del server:"+response);
+        console.log("Respuesta del servidor:"+response);
         let data: DeviceInt[] = JSON.parse(response);
         console.log("Variable data:"+data);
         this.view.showDevices(data);
