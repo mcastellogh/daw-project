@@ -18,10 +18,11 @@ Desarrollo de una aplicación web
 # Infraestructura
 La infraestructura utilizada para la construcción de esta aplicación consta de un servidor dedicado, especialmente instalado para desarrollar actividades de las materias de la Especialización en Internet de las Cosas de la Facultad de Ingeniería de la Universidad de Buenos Aires.
 Datos del servidor:
-IP Local: `192.168.1.41`
-Hostname: `miot`
-SO: `Debian GNU/Linux 10`
-Acceso externo: `http://mcastello.dyndns.org:8000`
+
+IP Local: `192.168.1.41`\
+Hostname: `miot`\
+SO: `Debian GNU/Linux 10`\
+Acceso externo: `http://mcastello.dyndns.org:8000`\
 
 # Instalación 
 ## Template de la aplicación
@@ -120,6 +121,14 @@ docker-compose restart
 ```
 
 # Diagrama conceptual de la aplicación
+En la figura se observa un diagrama representativo de la arquitectura de la aplicación. En el mismo se pueden distinguir las tres capas que la forman.
+>- Frontend
+>- Backend
+>- Persistencia de datos
+
+Se incluyeron en este diagrama, a modo de ejemplo, dos consultas (get y post) para visualizar el flujo de los datos dentro de la aplicación y las funciones más importantes involucradas.
+
+![Diagrama conceptual](doc/DAW_concept.png)
 
 # Frontend
 
@@ -128,7 +137,12 @@ docker-compose restart
 # Base de datos
 
 # ToDo
-Instalar nginx y configurarlo para que el acceso al sitio sea a través de protocolo de seguridad (TLS)
+La siguiente es una lista de las actividades por realizar.
+
+>- Instalar nginx y configurarlo para que el acceso al sitio sea a través de protocolo de seguridad (TLS).
+>- Incorporar al sitio un login con usuario y contraseña, para dar seguridad y tener la posibilidad de asignar roles de usuario.
+
+
 
 # Licence
 
