@@ -1,12 +1,12 @@
 ![header](doc/header.png)
 
-Desarrollo de una aplicación web 
+Contenidos
 - [Infraestructura](#infraestructura)
 - [Instalación](#instalación)
   - [Template de la aplicación](#template-de-la-aplicación)
   - [Docker](#docker)
   - [Docker-compose](#docker-compose)
-  - [Imagenes](#imagenes)
+  - [Imágenes](#imágenes)
   - [Comandos útiles de docker-compose](#comandos-útiles-de-docker-compose)
 - [Diagrama conceptual de la aplicación](#diagrama-conceptual-de-la-aplicación)
 - [Frontend](#frontend)
@@ -17,12 +17,12 @@ Desarrollo de una aplicación web
 
 # Infraestructura
 La infraestructura utilizada para la construcción de esta aplicación consta de un servidor dedicado, especialmente instalado para desarrollar actividades de las materias de la Especialización en Internet de las Cosas de la Facultad de Ingeniería de la Universidad de Buenos Aires.
-Datos del servidor:
 
+Datos del servidor:\
 IP Local: `192.168.1.41`\
 Hostname: `miot`\
 SO: `Debian GNU/Linux 10`\
-Acceso externo: `http://mcastello.dyndns.org:8000`\
+Acceso externo: http://mcastello.dyndns.org:8000
 
 # Instalación 
 ## Template de la aplicación
@@ -82,8 +82,8 @@ Deberá mostrar la versión instalada `V1.26.2`
 Se deberá reiniciar el sistema para que los servicios instalados arranquen con las configuraciones correspondientes
 
 
-## Imagenes
-Se deberán descargar las sigientes imágenes de docker proporcionadas por los docentes necesarias para la aplicación.
+## Imágenes
+Se deberán descargar las siguientes imágenes de docker necesarias para la aplicación proporcionadas por los docentes.
 
 ```sh
 docker pull harmish/typescript
@@ -91,16 +91,16 @@ docker pull mysql:5.7
 docker pull phpmyadmin/phpmyadmin
 docker pull abassi/nodejs-server:10.0-dev
 ```
-Una vez descargadas, se podrá levantar la aplicación con el comando `docker-compose up`. Esto iniciará los siguientes servicios:
+Una vez descargadas, se podrá iniciar la aplicación con el comando `docker-compose up`. Esto iniciará los siguientes servicios:
 >- Mysql server
->- PhpMyadmin
+>- PhpMyadmin (y dependencias)
 >- NodeJs server
 >- Monitor de nodejs
 >- Monitor de Typescript
 
 ## Comandos útiles de docker-compose
 
-Levantar docker compose
+Iniciar docker compose
 ```sh 
 docker-compose up
 ```

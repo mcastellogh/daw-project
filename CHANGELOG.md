@@ -16,4 +16,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
     * NodeJS backend application.
     * Materialize CSS framework.
 
-![footer](doc/images/generals/footer.png)
+![footer](doc/footer.png)
