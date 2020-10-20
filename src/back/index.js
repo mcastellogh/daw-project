@@ -88,6 +88,19 @@ app.post ( '/dispositivos', function(req,res){ // /dispositivos/:id en el navega
 
     //res.send(myjson[id-1]); //la envío al cliente
 });
+app.post ( '/deldispositivos', function(req,res){ 
+    id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
+    //console.log(st,id); 
+    //console.log(stat,id);
+    connectionMySQL.query('delete from Devices where id=?',[id],function(err,respuesta){
+        if(err){
+            res.send(err).status(400);
+        }
+        res.send(respuesta).status(200);
+     });
+});
+
+
 /*app.post('/dispositivos',function(req,res){
 
 })*/

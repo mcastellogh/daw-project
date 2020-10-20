@@ -13,7 +13,15 @@ class MyFramework{
         e=document.getElementById(id);
         return e;
     }
+    getElementByEvent(evt:Event):HTMLElement{
+        return <HTMLElement>evt.target;  //casting
+    }
 
+    configEventLister (event:string, id:string, listener:EventListenerObject):void
+    {
+        let element:HTMLElement = document.getElementById (id);
+        element.addEventListener (event,listener);
+    }
     requestGET(url:string,listener:GETResponseListener):void{
         let xhr: XMLHttpRequest;
         xhr = new XMLHttpRequest();
@@ -61,16 +69,6 @@ class MyFramework{
         //______________________________
 
               
-    }
-
-    getElementByEvent(evt:Event):HTMLElement{
-        return <HTMLElement>evt.target;  //casting
-    }
-
-    configEventLister (event:string, id:string, listener:EventListenerObject):void
-    {
-        let b:HTMLElement = document.getElementById (id);
-        b.addEventListener (event,listener);
     }
 
 }

@@ -91,7 +91,15 @@ docker pull mysql:5.7
 docker pull phpmyadmin/phpmyadmin
 docker pull abassi/nodejs-server:10.0-dev
 ```
-Una vez descargadas, se podrá iniciar la aplicación con el comando `docker-compose up`. Esto iniciará los siguientes servicios:
+Una vez descargadas, se podrá iniciar la aplicación con el comando `docker-compose up`.\
+Como root:
+
+```sh
+cd /home/site/daw-project
+docker-compose up
+```
+
+Esto iniciará los siguientes servicios:
 >- Mysql server
 >- PhpMyadmin (y dependencias)
 >- NodeJs server
