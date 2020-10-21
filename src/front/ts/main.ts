@@ -82,9 +82,9 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                 break;            
             case "modalacep":
                 console.log("Se sale del Modal con boton Aceptar");
-                let nombre:string = this.myf.getElementById('nombre_dis').value;
-                let descripcion:string= this.myf.getElementById('descrip_dis').value;
-                let tipo:string= this.myf.getElementById('tipo_dis').value;
+                let nombre:string = (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value;
+                let descripcion:string = (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value;
+                let tipo:string = (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value;
                 console.log(nombre,descripcion,tipo);
                 let data = {"name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`};
                 this.myf.requestPOST(`http://${this.ip_server}:8000/adddispositivos`,data,this);
@@ -117,16 +117,19 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                     this.myf.requestGET (`http://${this.ip_server}:8000/dispositivos`,this);
                 }
                 break;
-            case "dev":
+            case "sw":
                 console.log(elemento.id.split('_')[1]);
                 let state:boolean = this.view.getSwitchStateById(elemento.id);
                 let data1 = {"id":`${elemento.id}`,"state":state};
                 this.myf.requestPOST(`http://${this.ip_server}:8000/dispositivos`,data1,this);
                 break;
             case "rang":
-                //var slider = this.myf.getElementById(`rang_${elemento.id}`).value;
+                //let sldvalue:string = (<HTMLInputElement>this.myf.getElementById(`rang_${elemento.id}`)).value;
+                let sldvalue:string = (<HTMLInputElement>elemento).value;
+                let data2 = {"id":`${elemento.id}`,"range":`${sldvalue}`};
+                this.myf.requestPOST(`http://${this.ip_server}:8000/dispositivos`,data2,this);
                 console.log(elemento.id.split('_')[1]);
-                console.log(<number>elemento.value);
+                console.log(sldvalue);
                 
                 break;
         }
@@ -158,7 +161,7 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
             let edt:HTMLElement=this.myf.getElementById(`edit_${d.id}`);
             edt.addEventListener("click",this);*/
             //--Escucha switch on/off
-            this.myf.configEventLister ("click", `dev_${d.id}`, this);
+            this.myf.configEventLister ("click", `sw_${d.id}`, this);
             //--Escucha boton edición dispositivo
             this.myf.configEventLister ("click", `edit_${d.id}`, this);
             //--Escucha boton borrar dispositivo

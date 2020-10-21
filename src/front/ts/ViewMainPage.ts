@@ -22,7 +22,44 @@ class ViewMainPage{
                     img="static/images/window.png";
                     break;
             }
-                lista_disp.innerHTML+=`<li class="collection-item avatar">
+            lista_disp.innerHTML+=
+           `<li class="myli">
+                <div class="row flex">
+                    <div class="col l1 imagen-disp">
+                        <img src=${img} alt="" class="circle myimg">
+                    </div>
+                    <div class="col l2">
+                        <p class="title">${dev.name}</span>
+                        <p class="title">${dev.description}</span>
+                    </div>
+                    <div class="col l6">
+                        <div class="switch">
+                            <label>
+                                Off
+                                <input id="sw_${dev.id}" type="checkbox" ${estado} >
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                        <div>
+                            <div>
+                                <p class="range-field">
+                                    <input type="range" name="range" id="rang_${dev.id}" min="0" max="100" value="0" />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l3" >
+                        <div class="row mybuttons" >
+                            <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1"><i id="edit_${dev.id}" class="material-icons center">edit</i></a>
+                            <a class="waves-effect waves-teal btn-flat"><i id="del_${dev.id}" class="material-icons center">delete</i></a>           
+                        </div>
+                    </div>
+                </div>
+            </li>`;
+                
+                
+                /*`<li class="collection-item avatar">
                 <div class="row">
                     <div class="col l12">
                         <img src=${img} alt="" class="circle">
@@ -61,7 +98,7 @@ class ViewMainPage{
                     </div>
                 </div>
 
-            </li>`;
+            </li>`;*/
             //let element1:HTMLElement = document.getElementById (`edit_${dev.id}`);
             //element1.addEventListener ("click",this.esc_evt);
         }
@@ -73,9 +110,9 @@ class ViewMainPage{
         return i.checked;
     }
     /*getRangeValueById(id:string):number{
-        let e:number = this.myf.getElementById(id).value;
+    //    let e:number = this.myf.getElementById(id).value;
         //let i:HTMLInputElement = <HTMLInputElement> e;
-
-        return e;
+        let sldvalue:string = (<HTMLInputElement>elemento).value;
+        return sldvalue;
     }*/
 }

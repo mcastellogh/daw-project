@@ -66,6 +66,10 @@ app.get('/dispositivos', function(req, res, next) {
     //res.send(JSON.stringify(response)).status(200);
 });*/
 
+/*app.delete('/dispositivos'),function(req,res){
+
+}*/
+
 app.post ( '/dispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
     id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
     let st=req.body.state;    //Obtengo el estado que me postea el cliente

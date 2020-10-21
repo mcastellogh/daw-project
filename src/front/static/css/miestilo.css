@@ -1,0 +1,27 @@
+.flex {
+    margin-bottom:0; 
+    display:flex; 
+    flex-wrap:wrap;
+}
+
+.imagen-disp {
+    display:flex; 
+    align-items:center; 
+    justify-content: center;
+}
+
+.mying{
+    vertical-align: middle;
+}
+
+.myli{
+    padding: 15px 0; 
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.mybuttons{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100%;
+}
