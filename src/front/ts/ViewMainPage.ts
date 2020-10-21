@@ -38,7 +38,7 @@ class ViewMainPage{
                         </div>
                         <div class="row">            
                             
-                                <a class="waves-effect waves-teal btn-flat"><i id="edit_${dev.id}" class="material-icons center">edit</i></a>
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1"><i id="edit_${dev.id}" class="material-icons center">edit</i></a>
                                 <a class="waves-effect waves-teal btn-flat"><i id="del_${dev.id}" class="material-icons center">delete</i></a>
                             
                         </div>
@@ -54,7 +54,8 @@ class ViewMainPage{
                         </div>
                         <div>
                             <p class="range-field">
-                                <input type="range" id="rang_${dev.id}" min="0" max="100" />
+                                <input type="range" name="range" id="rang_${dev.id}" min="0" max="100" />
+                                <output for="range" onforminput="value = name.valueAsNumber;"></output>
                             </p>
                         </div>
                     </div>
@@ -67,9 +68,14 @@ class ViewMainPage{
         
     }
     getSwitchStateById(id:string):boolean{
-            let e:HTMLElement = this.myf.getElementById(id);
-            let i:HTMLInputElement = <HTMLInputElement> e;
-            return i.checked;
+        let e:HTMLElement = this.myf.getElementById(id);
+        let i:HTMLInputElement = <HTMLInputElement> e;
+        return i.checked;
     }
-   
+    /*getRangeValueById(id:string):number{
+        let e:number = this.myf.getElementById(id).value;
+        //let i:HTMLInputElement = <HTMLInputElement> e;
+
+        return e;
+    }*/
 }

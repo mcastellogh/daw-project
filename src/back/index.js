@@ -83,10 +83,7 @@ app.post ( '/dispositivos', function(req,res){ // /dispositivos/:id en el navega
         }
         res.send(respuesta).status(200);
      });
-    //--Actuar sobre hdw
 
-
-    //res.send(myjson[id-1]); //la envío al cliente
 });
 app.post ( '/deldispositivos', function(req,res){ 
     id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
@@ -100,7 +97,28 @@ app.post ( '/deldispositivos', function(req,res){
      });
 });
 
+app.post ( '/adddispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
+    //id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
+    let nam=req.body.name;
+    let st=parseInt(req.body.state);    //Obtengo el estado que me postea el cliente
+    let desc=req.body.description;
+    let typ=parseInt(req.body.type);
+    //console.log(st,id);
+    //--guardar en database
+    if (st==true){
+        var stat=1;
+    }else{
+        stat=0;
+    }  
+    //console.log(stat,id);
+    connectionMySQL.query('insert into Devices (name, description, state, type) values (?,?,?,?)',[nam,desc,st,typ],function(err,respuesta){
+        if(err){
+            res.send(err).status(400);
+        }
+        res.send(respuesta).status(200);
+     });
 
+});
 /*app.post('/dispositivos',function(req,res){
 
 })*/

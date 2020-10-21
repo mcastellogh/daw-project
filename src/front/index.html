@@ -35,6 +35,7 @@
     <a id="boton-prueba"></a>
     <h4>Boton de prueba</h4>
     <a id="boton" class="waves-effect waves-light btn">boton</a>
+    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
 </div>
 
 <br/>
@@ -42,7 +43,7 @@
     <a id="dispositivos"></a>
     <h4>Dispositivos</h4>
     <ul id="devicesList" class="collection"></ul> 
-    <ul><a  class="btn-floating btn-large waves-effect waves-light red"><i id="botonAdd" class="material-icons">add</i></a></ul>
+    <ul><a  class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#modal1"><i id="botonAdd" class="material-icons">add</i></a></ul>
 </div>
 	
 		<!-- Page Footer -->
@@ -66,21 +67,64 @@
         </footer>
 
 <!-- The Modal -->
+
  <!-- Modal Structure -->
- <div id="myModal" class="modal">
+<!-- Modal Structure -->
+<div id="modal1" class="modal modal-fixed-footer">
+    <form id="formadd" method="GET" action="#">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
+      <h4>Edición de dispositivos</h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input placeholder="Nombre" id="nombre_dis" type="text" class="validate">
+              <label for="nombre">Nombre</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input placeholder="Descripción"  id="descrip_dis" type="text" class="validate">
+              <label for="descrip_dis">Descripción</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+                <select id="tipo_dis">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="0">On/Off</option>
+                    <option value="1">Lámpara dimerizable</option>
+                    <option value="2">Persiana</option>
+                  </select>
+                  <label>Tipo</label>
+            </div>
+          </div>
+
+        </form>
+      </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn-small">Cancelar</a>
+      <a href="#!" id="modalacep" class="modal-close waves-effect waves-green btn-small red">Aceptar</a>
     </div>
+    </form>
   </div>
+<script>
+//M.AutoInit();
+document.addEventListener('DOMContentLoaded', function() {
+    
+    var form_modal = document.querySelectorAll('.modal');
+    var instances_mod = M.Modal.init(form_modal, {opacity:0.6});
+    console.log('modal');
+    var elem_select=document.querySelectorAll('select')
+    var instances_sel = M.FormSelect.init(elem_select, {});
+  });
 
+</script>
 
 
 		<!--JavaScript at end of body for optimized loading-->
-		<script type="text/javascript" src="static/js/materialize.min.js"></script>
+        <script type="text/javascript" src="static/js/materialize.min.js"></script> 
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/User.js"></script>
         <script type="text/javascript" src="js/MyFramework.js"></script>

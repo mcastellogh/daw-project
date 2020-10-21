@@ -67,16 +67,28 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
         }
     }*/
     handleEvent(evt:Event):void{
-        
+
         let elemento:HTMLElement= this.myf.getElementByEvent(evt);
+        //let data:DeviceInt;
         //console.log(elemento);
         //console.log(`Se hizo click, evento: ${evt.type}`);
         //console.log("HTMLEement:"+elemento.id);
         let ident:string = elemento.id.split('_')[0]
-        console.log(ident);
+        console.log("Id del elemento escuchado:"+ident);
         switch (ident){
             case "botonAdd":
-                console.log("botonADD");
+                console.log("Acceso a Modal con boton Add");
+                //console.log(elemento);
+                break;            
+            case "modalacep":
+                console.log("Se sale del Modal con boton Aceptar");
+                let nombre:string = this.myf.getElementById('nombre_dis').value;
+                let descripcion:string= this.myf.getElementById('descrip_dis').value;
+                let tipo:string= this.myf.getElementById('tipo_dis').value;
+                console.log(nombre,descripcion,tipo);
+                let data = {"name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`};
+                this.myf.requestPOST(`http://${this.ip_server}:8000/adddispositivos`,data,this);
+                this.myf.requestGET (`http://${this.ip_server}:8000/dispositivos`,this);
                 break;
             case "edit":
                 //var M:any;
@@ -90,8 +102,9 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                 //var instance = M.Modal.getInstance(elems);
                 //var elems = document.querySelectorAll('.modal');
                 //var instances = M.Modal.init(elems, {});
-
-
+                //var elems = document.querySelectorAll('.modal');
+                //var instances = M.Modal.init(elems, {opacity:0.6});
+                
 
                 
                 break;
@@ -107,13 +120,13 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
             case "dev":
                 console.log(elemento.id.split('_')[1]);
                 let state:boolean = this.view.getSwitchStateById(elemento.id);
-                let data = {"id":`${elemento.id}`,"state":state};
-                this.myf.requestPOST(`http://${this.ip_server}:8000/dispositivos`,data,this);
+                let data1 = {"id":`${elemento.id}`,"state":state};
+                this.myf.requestPOST(`http://${this.ip_server}:8000/dispositivos`,data1,this);
                 break;
             case "rang":
-                var slider = document.getElementById(`rang_${elemento.id}`);
+                //var slider = this.myf.getElementById(`rang_${elemento.id}`).value;
                 console.log(elemento.id.split('_')[1]);
-                //console.log(slider.range.get());
+                console.log(<number>elemento.value);
                 
                 break;
         }
@@ -144,10 +157,16 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
             sw.addEventListener("click",this);
             let edt:HTMLElement=this.myf.getElementById(`edit_${d.id}`);
             edt.addEventListener("click",this);*/
+            //--Escucha switch on/off
             this.myf.configEventLister ("click", `dev_${d.id}`, this);
+            //--Escucha boton edición dispositivo
             this.myf.configEventLister ("click", `edit_${d.id}`, this);
+            //--Escucha boton borrar dispositivo
             this.myf.configEventLister ("click", `del_${d.id}`, this);
+            //--Escucha slider dispositivo
             this.myf.configEventLister ("change", `rang_${d.id}`, this);
+            //--Escucha apertura de modal
+            this.myf.configEventLister ("click", "modal1", this);
 
 
 
