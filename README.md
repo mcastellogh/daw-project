@@ -149,7 +149,7 @@ La siguiente es una lista de las actividades por realizar.
 
 >- Instalar nginx y configurarlo para que el acceso al sitio sea a través de protocolo de seguridad (TLS).
 >- Incorporar al sitio un login con usuario y contraseña, para dar seguridad y tener la posibilidad de asignar roles de usuario.
-
+>- Optimizar las funciones app.post y app.get del backend enviando un accion determinada a realizar manteniendo la misma ruta.
 
 
 # Licence

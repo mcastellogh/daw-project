@@ -13,6 +13,7 @@ class MyFramework{
         e=document.getElementById(id);
         return e;
     }
+    
     getElementByEvent(evt:Event):HTMLElement{
         return <HTMLElement>evt.target;  //casting
     }

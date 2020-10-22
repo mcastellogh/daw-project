@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
-app.get('/dispositivos', function(req, res, next) {
+app.get('/ver-dispositivos', function(req, res, next) {
     //connectionMySQL.query('Select * from Devices where id=?',[req.params.id],function(err,respuesta){
     connectionMySQL.query('Select * from Devices',function(err,respuesta){
        if(err){
@@ -70,7 +70,7 @@ app.get('/dispositivos', function(req, res, next) {
 
 }*/
 
-app.post ( '/dispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
+app.post ( '/ver-dispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
     id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
     let st=req.body.state;    //Obtengo el estado que me postea el cliente
     //console.log(st,id);
@@ -89,7 +89,20 @@ app.post ( '/dispositivos', function(req,res){ // /dispositivos/:id en el navega
      });
 
 });
-app.post ( '/deldispositivos', function(req,res){ 
+app.post ( '/update-range', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
+    id=parseInt(req.body.id.split('_')[1]);     //Obtengo la id que me postea el cliente
+    let value=req.body.value;    //Obtengo el estado que me postea el cliente
+    console.log("value"); 
+    console.log(value,id);
+    connectionMySQL.query('update Devices set value=? where id=?',[value,id],function(err,respuesta){
+        if(err){
+            res.send(err).status(400);
+        }
+        res.send(respuesta).status(200);
+     });
+
+});
+app.post ( '/del-dispositivos', function(req,res){ 
     id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
     //console.log(st,id); 
     //console.log(stat,id);
@@ -101,7 +114,7 @@ app.post ( '/deldispositivos', function(req,res){
      });
 });
 
-app.post ( '/adddispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
+app.post ( '/add-dispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
     //id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
     let nam=req.body.name;
     let st=parseInt(req.body.state);    //Obtengo el estado que me postea el cliente

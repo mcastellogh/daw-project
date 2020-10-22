@@ -44,7 +44,7 @@ class ViewMainPage{
                         <div>
                             <div>
                                 <p class="range-field">
-                                    <input type="range" name="range" id="rang_${dev.id}" min="0" max="100" value="0" />
+                                    <input type="range" name="range" id="rang_${dev.id}" min="0" max="100" value="${dev.value}" />
                                 </p>
                             </div>
                         </div>

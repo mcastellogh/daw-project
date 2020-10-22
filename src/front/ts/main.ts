@@ -17,6 +17,7 @@ interface DeviceInt{
     description:string;
     state:string;
     type:string;
+    value:number;
 }
 
 class Main implements EventListenerObject,GETResponseListener, POSTResponseListener {
@@ -55,8 +56,8 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
         //botEdit.addEventListener("click",()=>{alert("Evento!")}); //this.evento);
         this.myf.configEventLister ("click", "botonAdd", this);
        
-        this.myf.requestGET (`http://${this.ip_server}:8000/dispositivos`,this);
-
+        this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
+        
     }
     /*mostrarUsers(users:Array<User>):void{
         //for(let i in users){
@@ -87,8 +88,8 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                 let tipo:string = (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value;
                 console.log(nombre,descripcion,tipo);
                 let data = {"name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`};
-                this.myf.requestPOST(`http://${this.ip_server}:8000/adddispositivos`,data,this);
-                this.myf.requestGET (`http://${this.ip_server}:8000/dispositivos`,this);
+                this.myf.requestPOST(`http://${this.ip_server}:8000/add-dispositivos`,data,this);
+                this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
                 break;
             case "edit":
                 //var M:any;
@@ -113,21 +114,21 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                 let opcion:boolean = confirm(`Borrar el dispositivo ${elemento.id} ?`);
                 if (opcion===true){
                     let data = {"id":`${elemento.id}`};
-                    this.myf.requestPOST(`http://${this.ip_server}:8000/deldispositivos`,data,this);
-                    this.myf.requestGET (`http://${this.ip_server}:8000/dispositivos`,this);
+                    this.myf.requestPOST(`http://${this.ip_server}:8000/del-dispositivos`,data,this);
+                    this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
                 }
                 break;
             case "sw":
                 console.log(elemento.id.split('_')[1]);
                 let state:boolean = this.view.getSwitchStateById(elemento.id);
                 let data1 = {"id":`${elemento.id}`,"state":state};
-                this.myf.requestPOST(`http://${this.ip_server}:8000/dispositivos`,data1,this);
+                this.myf.requestPOST(`http://${this.ip_server}:8000/ver-dispositivos`,data1,this);
                 break;
             case "rang":
                 //let sldvalue:string = (<HTMLInputElement>this.myf.getElementById(`rang_${elemento.id}`)).value;
                 let sldvalue:string = (<HTMLInputElement>elemento).value;
-                let data2 = {"id":`${elemento.id}`,"range":`${sldvalue}`};
-                this.myf.requestPOST(`http://${this.ip_server}:8000/dispositivos`,data2,this);
+                let data2 = {"id":`${elemento.id}`,"value":`${sldvalue}`};
+                this.myf.requestPOST(`http://${this.ip_server}:8000/update-range`,data2,this); //deberie ir /value
                 console.log(elemento.id.split('_')[1]);
                 console.log(sldvalue);
                 
