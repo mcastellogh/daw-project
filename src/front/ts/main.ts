@@ -6,11 +6,6 @@
  * Brief: Main frontend file (where the logic is)
 =============================================================================*/
 
-
-/*function configClick(){
-
-}*/
-
 interface DeviceInt{
     id:string;
     name:string;
@@ -18,6 +13,7 @@ interface DeviceInt{
     state:string;
     type:string;
     value:number;
+    action:string;
 }
 
 class Main implements EventListenerObject,GETResponseListener, POSTResponseListener {
@@ -26,92 +22,71 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
   counter:number=0;
   ip_server:string = "192.168.1.41";
     main():void{
-        
-       /* console.log("Mensaje desde main");
-        //-- Prueba con arrays
-        let usuarios:Array<User>;
-        usuarios=new Array<User>();
-        usuarios.push(new User(1,"MAC","mac@gmail.com"));
-        usuarios.push(new User(2,"MAC1","mac1@gmail.com"));
-        usuarios.push(new User(3,"MAC2","mac2@gmail.com"));
-
-        //--Ejemplo de uso del set
-        usuarios[1].email="micorreo@dominio.com";
-        //--Ejemplo de uso del get
-        console.log("email1:"+usuarios[1].email);
-
-        //for(let i in usuarios){
-          //  usuarios[i].printInfo();
-        //}
-        this.mostrarUsers(usuarios);*/
-
-        
         this.myf = new MyFramework();
-        //let botAdd:HTMLElement= document.getElementById("botonAdd");
-        //let botEdit:HTMLElement= document.getElementById("edit_1");
-        //botAdd.addEventListener("click",this);
-        //botEdit.addEventListener("click",this);
         this.view=new ViewMainPage(this.myf);
-        //b.textContent="Hola Mundo";
-        //botEdit.addEventListener("click",()=>{alert("Evento!")}); //this.evento);
         this.myf.configEventLister ("click", "botonAdd", this);
-       
-        this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
-        
+        this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);  
     }
-    /*mostrarUsers(users:Array<User>):void{
-        //for(let i in users){
-          //  users[i].printInfo();
-        //}
-        for (let o of users){
-            o.printInfo();
-        }
-    }*/
-    handleEvent(evt:Event):void{
 
+    handleEvent(evt:Event):void{
         let elemento:HTMLElement= this.myf.getElementByEvent(evt);
         //let data:DeviceInt;
         //console.log(elemento);
         //console.log(`Se hizo click, evento: ${evt.type}`);
         //console.log("HTMLEement:"+elemento.id);
         let ident:string = elemento.id.split('_')[0]
-        console.log("Id del elemento escuchado:"+ident);
+        console.log("Id del elemento escuchado:"+elemento.id);
         switch (ident){
             case "botonAdd":
                 console.log("Acceso a Modal con boton Add");
-                //console.log(elemento);
+                (<HTMLInputElement>this.myf.getElementById('tit_modal')).innerHTML="Agregar dispositivo";
+                (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value="";//<string>this.myf.getElementById(`name_${elemento.id.split('_')[1]}`).textContent;
+                (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value="";//<string>this.myf.getElementById(`desc_${elemento.id.split('_')[1]}`).textContent;
+                (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value=""
                 break;            
             case "modalacep":
-                console.log("Se sale del Modal con boton Aceptar");
+                //--Sale del Modal con boton Aceptar
+                //console.log("Se sale del Modal con boton Aceptar"+(<HTMLInputElement>this.myf.getElementById('tit_modal')).innerHTML);
                 let nombre:string = (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value;
                 let descripcion:string = (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value;
                 let tipo:string = (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value;
+                let id_mod:string=(<HTMLInputElement>this.myf.getElementById('id_dis')).value;
                 console.log(nombre,descripcion,tipo);
-                let data = {"name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`};
+                //let data = {"name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`};
+                let data:DeviceInt;
+
+                //-- Ver si sale de inserción o de adición de dispositivo
+                let context_modal:string = (<HTMLBodyElement>this.myf.getElementById('tit_modal')).innerHTML;
+                console.log(context_modal);
+                if(context_modal=="Editar dispositivo"){
+                    //--edita
+                    console.log("id:"+id_mod);
+                    data = {"id":`${id_mod}`,"action":"edit","name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`,"value":0};  
+                }else{
+                    //--agrega
+                    data = {"id":"","action":"add","name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`,"value":0};
+                    
+                }
                 this.myf.requestPOST(`http://${this.ip_server}:8000/add-dispositivos`,data,this);
                 this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
                 break;
             case "edit":
-                //var M:any;
-                console.log(elemento.id.split('_')[1]);
-                //var myDialog = document.getElementById("myModal");
-                //console.log(modal);
-                //let myDialog:any = <any>document.getElementById("myModal");
-                //document.getElementById("myModal").style.display = "block";
-                //myDialog.modal('open');
+                this.myf.getElementById('tit_modal').innerHTML="Editar dispositivo";
+                let idx:string=(<HTMLInputElement>this.myf.getElementById(`tipo_${elemento.id.split('_')[1]}`)).textContent;
+                //console.log((this.myf.getElementById(elemento.id)).textContent);
+                //console.log("select "+(<HTMLInputElement>this.myf.getElementById(`tipo_${elemento.id.split('_')[1]}`)).textContent);
+                //console.log("selection "+idx);//(<HTMLInputElement>this.myf.getElementById(`tipo_dis`)).value);
+                //console.log("Edicion de "+elemento.id.split('_')[1]);
+                (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value=<string>this.myf.getElementById(`name_${elemento.id.split('_')[1]}`).textContent;
+                (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value=<string>this.myf.getElementById(`desc_${elemento.id.split('_')[1]}`).textContent;
+                (<HTMLSelectElement>this.myf.getElementById('tipo_dis')).options[idx].selected=true;
+                (<HTMLInputElement>this.myf.getElementById('id_dis')).value=elemento.id;
+                //console.log((<HTMLSelectElement>this.myf.getElementById('tipo_dis')).options);
 
-                //var instance = M.Modal.getInstance(elems);
-                //var elems = document.querySelectorAll('.modal');
-                //var instances = M.Modal.init(elems, {});
-                //var elems = document.querySelectorAll('.modal');
-                //var instances = M.Modal.init(elems, {opacity:0.6});
-                
-
-                
                 break;
             case "del":
                 console.log(elemento.id.split('_')[1]);
-                let opcion:boolean = confirm(`Borrar el dispositivo ${elemento.id} ?`);
+                let opcion:boolean = confirm(`Borrar el dispositivo ${elemento.id.split('_')[1]}?`);
                 if (opcion===true){
                     let data = {"id":`${elemento.id}`};
                     this.myf.requestPOST(`http://${this.ip_server}:8000/del-dispositivos`,data,this);
@@ -125,13 +100,11 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                 this.myf.requestPOST(`http://${this.ip_server}:8000/ver-dispositivos`,data1,this);
                 break;
             case "rang":
-                //let sldvalue:string = (<HTMLInputElement>this.myf.getElementById(`rang_${elemento.id}`)).value;
                 let sldvalue:string = (<HTMLInputElement>elemento).value;
                 let data2 = {"id":`${elemento.id}`,"value":`${sldvalue}`};
                 this.myf.requestPOST(`http://${this.ip_server}:8000/update-range`,data2,this); //deberie ir /value
                 console.log(elemento.id.split('_')[1]);
                 console.log(sldvalue);
-                
                 break;
         }
         /*if (elemento.id=="botonAdd"){
@@ -149,18 +122,15 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
         
         
     }
-    handleGETResponse(status:number, response:string):void{//callback que se llama cuando requestGET tiene respuesta
+    handleGETResponse(status:number, response:string):void{
         //--Respuesta del servidor con todos los dispositivos en BD
         console.log("Respuesta del servidor:"+response);
         let data: DeviceInt[] = JSON.parse(response);
-        console.log("Variable data:"+data);
+        //console.log("Variable data:"+data[0].name);
         this.view.showDevices(data);
+
         //--Arma las escuchas de los clicks
         for(let d of data){
-            /*let sw:HTMLElement=this.myf.getElementById(`dev_${d.id}`);
-            sw.addEventListener("click",this);
-            let edt:HTMLElement=this.myf.getElementById(`edit_${d.id}`);
-            edt.addEventListener("click",this);*/
             //--Escucha switch on/off
             this.myf.configEventLister ("click", `sw_${d.id}`, this);
             //--Escucha boton edición dispositivo
@@ -171,18 +141,11 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
             this.myf.configEventLister ("change", `rang_${d.id}`, this);
             //--Escucha apertura de modal
             this.myf.configEventLister ("click", "modal1", this);
-
-
-
-
-
-
-
         }
-
-    
     }
-    handlePOSTResponse(status:number, response:string):void{//callback que se llama cuando requestGET tiene respuesta
+
+    //--Callback que se llama cuando requestPOST tiene respuesta
+    handlePOSTResponse(status:number, response:string):void{
      console.log(status);
      console.log(response);
     }

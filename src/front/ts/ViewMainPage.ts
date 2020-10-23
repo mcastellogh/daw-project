@@ -26,13 +26,17 @@ class ViewMainPage{
            `<li class="myli">
                 <div class="row flex">
                     <div class="col l1 imagen-disp">
+                        <span><h5>${dev.id}</h5></span>
+                    </div>
+                    <div class="col l1 imagen-disp">    
                         <img src=${img} alt="" class="circle myimg">
                     </div>
                     <div class="col l2">
-                        <p class="title">${dev.name}</span>
-                        <p class="title">${dev.description}</span>
+                        <p id="name_${dev.id}" class="title boldName">${dev.name}</p>
+                        <p id="desc_${dev.id}" class="title">${dev.description}</p>
+                        <p id="tipo_${dev.id}" class="title">${dev.type}</p>
                     </div>
-                    <div class="col l6">
+                    <div class="col l5">
                         <div class="switch">
                             <label>
                                 Off
@@ -51,8 +55,8 @@ class ViewMainPage{
                     </div>
                     <div class="col l3" >
                         <div class="row mybuttons" >
-                            <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1"><i id="edit_${dev.id}" class="material-icons center">edit</i></a>
-                            <a class="waves-effect waves-teal btn-flat"><i id="del_${dev.id}" class="material-icons center">delete</i></a>           
+                            <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1"><i id="edit_${dev.id}" class="material-icons center color_edt">edit</i></a>
+                            <a class="waves-effect waves-teal btn-flat"><i id="del_${dev.id}" class="material-icons center color_del">delete</i></a>           
                         </div>
                     </div>
                 </div>

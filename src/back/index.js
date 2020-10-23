@@ -115,25 +115,33 @@ app.post ( '/del-dispositivos', function(req,res){
 });
 
 app.post ( '/add-dispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
-    //id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
-    let nam=req.body.name;
-    let st=parseInt(req.body.state);    //Obtengo el estado que me postea el cliente
-    let desc=req.body.description;
-    let typ=parseInt(req.body.type);
-    //console.log(st,id);
+    let id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
+    let action = req.body.action;
+    let nam = req.body.name;
+    let st = parseInt(req.body.state);    //Obtengo el estado que me postea el cliente
+    let desc = req.body.description;
+    let typ = parseInt(req.body.type);
     //--guardar en database
-    if (st==true){
-        var stat=1;
+    if (action=="add"){
+        if (st==true){
+            var stat=1;
+        }else{
+            stat=0;
+        }  
+        connectionMySQL.query('insert into Devices (name, description, state, type) values (?,?,?,?)',[nam,desc,st,typ],function(err,respuesta){
+            if(err){
+                res.send(err).status(400);
+            }
+            res.send(respuesta).status(200);
+        });
     }else{
-        stat=0;
-    }  
-    //console.log(stat,id);
-    connectionMySQL.query('insert into Devices (name, description, state, type) values (?,?,?,?)',[nam,desc,st,typ],function(err,respuesta){
-        if(err){
-            res.send(err).status(400);
-        }
-        res.send(respuesta).status(200);
-     });
+        connectionMySQL.query('update Devices set name=?, description=?, type=?  where id=?',[nam,desc,typ,id],function(err,respuesta){
+            if(err){
+                res.send(err).status(400);
+            }
+            res.send(respuesta).status(200);
+        });
+    }
 
 });
 /*app.post('/dispositivos',function(req,res){

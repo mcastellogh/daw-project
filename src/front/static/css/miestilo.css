@@ -25,3 +25,18 @@
     align-items: center; 
     height: 100%;
 }
+
+.buttonAdd {
+    display:flex; 
+    align-items:center; 
+}
+
+.boldName {
+    font-weight: bold;
+}
+.color_del{
+    color: red;
+}
+.color_edt{
+    color: #0f56ff;
+}
