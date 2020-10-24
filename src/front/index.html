@@ -10,125 +10,109 @@
       <link rel="stylesheet" href="./static/css/miestilo.css"/>
     </head>
     <body>
-
-
-        <!-- Navigation bar -->
-        <nav style="background-color:#124580">
-            <div class="nav-wrapper">
-                <a href="#!" class="brand-logo left" style="margin-left: 15px;">Smart Home</a>
-                <ul id="nav-mobile" class="right" style="margin-right: 15px;">
-                    <li class="active">
-                        <a href="#">Configuración</a>
-                    </li>
-                </ul>
+      <!-- Navigation bar -->
+      <nav style="background-color:#124580">
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo left" style="margin-left: 15px;">Smart Home</a>
+          <ul id="nav-mobile" class="right" style="margin-right: 15px;">
+            <li class="active">
+              <a href="#">Configuración</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- Page Body -->
+      <div class="container">
+        <a id="boton-prueba"></a>
+        <h4></h4>
+      </div>
+      <br/>
+      <div class="container">
+        <div class="row buttonAdd">
+          <div class="col s3">
+            <h4>Dispositivos</h4>
+          </div>
+          <div class="col s9">
+            <a  class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#modal1"><i id="botonAdd" class="material-icons" title="Agregar un dispositivo">add</i></a>
+          </div>
+        </div>
+        <a id="dispositivos"></a>
+        <ul id="devicesList" class="collection"></ul> 
+        <ul><!--<a  class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#modal1"><i id="botonAdd" class="material-icons" title="Agregar un dispositivo">add</i></a>--></ul>
+      </div>
+      <!-- Page Footer -->
+      <footer class="page-footer" style="background-color:#124580">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s6">
+              <h5 class="white-text">Smart Home</h5>
+              <p class="grey-text text-lighten-4">Copyright Marcelo Castello - 2020</p>
             </div>
-        </nav>
-
- <!-- Page Body -->
- <div class="container">
-    <a id="boton-prueba"></a>
-     <h4></h4>
-</div>
-
-<br/>
-<div class="container">
-  <div class="row buttonAdd">
-    <div class="col s3">
-      <h4>Dispositivos</h4>
-    </div>
-    <div class="col s9">
-      <a  class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#modal1"><i id="botonAdd" class="material-icons" title="Agregar un dispositivo">add</i></a>
-    </div>
-  </div>
-  <a id="dispositivos"></a>
-  <ul id="devicesList" class="collection"></ul> 
-  <ul><!--<a  class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#modal1"><i id="botonAdd" class="material-icons" title="Agregar un dispositivo">add</i></a>--></ul>
-</div>
-	
-		<!-- Page Footer -->
-        <footer class="page-footer" style="background-color:#124580">
-            <div class="container">
+            <div class="col l6 s6">
+              <h5 class="white-text right-align">Contact us</h5>
+              <p class="white-text right-align">
+              <a class="grey-text text-lighten-3" href="http://mcastello.dyndns.org/wiki">Wiki | </a>
+              <a class="grey-text text-lighten-3" href="https://github.com/mcastellogh">Github | </a>
+              <a class="grey-text text-lighten-3" href="https://hub.docker.com/">Dockerhub</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- Modal  -->
+      <div id="modal1" class="modal modal-fixed-footer">
+        <form id="formadd" method="GET" action="#">
+          <div class="modal-content">
+            <h4><span id="tit_modal"></span></h4>
+            <div class="row">
+              <form class="col s12">
                 <div class="row">
-                    <div class="col l6 s6">
-                        <h5 class="white-text">Smart Home</h5>
-                        <p class="grey-text text-lighten-4">Copyright Marcelo Castello - 2020</p>
-                    </div>
-                    <div class="col l6 s6">
-                        <h5 class="white-text right-align">Contact us</h5>
-                        <p class="white-text right-align">
-                            <a class="grey-text text-lighten-3" href="http://mcastello.dyndns.org/wiki">Wiki | </a>
-                            <a class="grey-text text-lighten-3" href="https://github.com/mcastellogh">Github | </a>
-                            <a class="grey-text text-lighten-3" href="https://hub.docker.com/">Dockerhub</a>
-                        </p>
-                    </div>
+                  <div class="input-field col s12">
+                    <input placeholder="Nombre" id="nombre_dis" type="text" class="validate">
+                    <label for="nombre">Nombre</label>
+                  </div>
                 </div>
-            </div>
-        </footer>
-
-<!-- The Modal -->
-
- <!-- Modal Structure -->
-<!-- Modal Structure -->
-<div id="modal1" class="modal modal-fixed-footer">
-    <form id="formadd" method="GET" action="#">
-    <div class="modal-content">
-      <h4><span id="tit_modal"></span></h4>
-      <div class="row">
-        <form class="col s12">
-          <div class="row">
-            <div class="input-field col s12">
-              <input placeholder="Nombre" id="nombre_dis" type="text" class="validate">
-              <label for="nombre">Nombre</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input placeholder="Descripción"  id="descrip_dis" type="text" class="validate">
-              <label for="descrip_dis">Descripción</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input placeholder="Descripción"  id="descrip_dis" type="text" class="validate">
+                    <label for="descrip_dis">Descripción</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <select id="tipo_dis">
+                      <option value="0" disabled>Seleccionar</option>
+                      <option value="1">On/Off</option>
+                      <option value="2">Lámpara dimerizable</option>
+                      <option value="3">Persiana</option>
+                    </select>
+                    <label>Tipo</label>
+                  </div>
+                  <span><input id="id_dis" type="text" hidden></span>
+                </div>
+              </form>
             </div>
           </div>
-          <div class="row">
-            <div class="input-field col s12">
-                <select id="tipo_dis">
-                    <option value="0" disabled>Seleccionar</option>
-                    <option value="1">On/Off</option>
-                    <option value="2">Lámpara dimerizable</option>
-                    <option value="3">Persiana</option>
-                  </select>
-                  <label>Tipo</label>
-            </div>
-            <span><input id="id_dis" type="text" hidden></span>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-small">Cancelar</a>
+            <a href="#!" id="modalacep" class="modal-close waves-effect waves-green btn-small red">Aceptar</a>
           </div>
-
         </form>
       </div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-small">Cancelar</a>
-      <a href="#!" id="modalacep" class="modal-close waves-effect waves-green btn-small red">Aceptar</a>
-    </div>
-    </form>
-  </div>
-<script>
-//M.AutoInit();
-document.addEventListener('DOMContentLoaded', function() {
-    
-    var form_modal = document.querySelectorAll('.modal');
-    var instances_mod = M.Modal.init(form_modal, {opacity:0.6});
-    console.log('modal');
-    var elem_select=document.querySelectorAll('select')
-    var instances_sel = M.FormSelect.init(elem_select, {});
-  });
-
-</script>
-
-
-		<!--JavaScript at end of body for optimized loading-->
-        <script type="text/javascript" src="static/js/materialize.min.js"></script> 
-        <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="js/User.js"></script>
-        <script type="text/javascript" src="js/MyFramework.js"></script>
-        <script type="text/javascript" src="js/ViewMainPage.js"></script>
-        
+      <script>
+      //-- Gestión de modal  
+        document.addEventListener('DOMContentLoaded', function() {
+          var form_modal = document.querySelectorAll('.modal');
+          var instances_mod = M.Modal.init(form_modal, {opacity:0.6});
+          console.log('modal');
+          var elem_select=document.querySelectorAll('select')
+          var instances_sel = M.FormSelect.init(elem_select, {});
+        });
+      </script>
+      <!--JavaScript at end of body for optimized loading-->
+      <script type="text/javascript" src="static/js/materialize.min.js"></script> 
+      <script type="text/javascript" src="js/main.js"></script>
+      <script type="text/javascript" src="js/User.js"></script>
+      <script type="text/javascript" src="js/MyFramework.js"></script>
+      <script type="text/javascript" src="js/ViewMainPage.js"></script>  
     </body>
   </html>

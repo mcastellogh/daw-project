@@ -34,19 +34,21 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
         console.log("Id del elemento escuchado:"+elemento.id);
         switch (ident){
             case "botonAdd":
-                console.log("Acceso a Modal con boton Add");
+                //--Acceso a Modal con boton Add
+                //--Título del modal
                 (<HTMLInputElement>this.myf.getElementById('tit_modal')).innerHTML="Agregar dispositivo";
+
+                //--Limpia el formulario
                 (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value="";
                 (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value="";
                 (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value=""
                 break;            
             case "modalacep":
-                //--Sale del Modal con boton Aceptar
+                //--Sale del Modal con boton Aceptar asignando los valores de los campos
                 let nombre:string = (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value;
                 let descripcion:string = (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value;
                 let tipo:string = (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value;
                 let id_mod:string=(<HTMLInputElement>this.myf.getElementById('id_dis')).value;
-                console.log(nombre,descripcion,tipo);
                 let data:DeviceInt;
 
                 //-- Ver si sale de inserción o de adición de dispositivo
@@ -61,47 +63,58 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                     data = {"id":"","action":"add","name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`,"value":0};
                     
                 }
+                //--Graba nuevo dispositivo en BD
                 this.myf.requestPOST(`http://${this.ip_server}:8000/add-dispositivos`,data,this);
+                //--Refresca página
                 this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
                 break;
             case "edit":
+                //--Título del modal
                 this.myf.getElementById('tit_modal').innerHTML="Editar dispositivo";
-                let idx:string=(<HTMLInputElement>this.myf.getElementById(`tipo_${elemento.id.split('_')[1]}`)).textContent;
+                //--Intento de set de select en modal
+                //console.log((<HTMLSelectElement>this.myf.getElementById('tipo_dis')).options[3]);
+                //console.log((<HTMLSelectElement>this.myf.getElementById('tipo_dis')).options.selectedIndex);
+
+                //--Trae los valores del dispositivo al modal
                 (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value=<string>this.myf.getElementById(`name_${elemento.id.split('_')[1]}`).textContent;
                 (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value=<string>this.myf.getElementById(`desc_${elemento.id.split('_')[1]}`).textContent;
-                (<HTMLSelectElement>this.myf.getElementById('tipo_dis')).options[idx].selected=true;
+                
+                //--Guarda la id del dispositivo en el modal 
                 (<HTMLInputElement>this.myf.getElementById('id_dis')).value=elemento.id;
                 break;
             case "del":
-                console.log(elemento.id.split('_')[1]);
+                //--Borra dispositivo
                 let opcion:boolean = confirm(`Borrar el dispositivo ${elemento.id.split('_')[1]}?`);
                 if (opcion===true){
-                    let data = {"id":`${elemento.id}`};
-                    this.myf.requestPOST(`http://${this.ip_server}:8000/del-dispositivos`,data,this);
+                    let data_del = {"id":`${elemento.id}`};
+                    this.myf.requestPOST(`http://${this.ip_server}:8000/del-dispositivos`,data_del,this);
+                    //--Refresca página
                     this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
                 }
                 break;
             case "sw":
+                //--Cambia estado del Switch del dispositivo
                 console.log(elemento.id.split('_')[1]);
                 let state:boolean = this.view.getSwitchStateById(elemento.id);
                 //let data1:DeviceInt = {"id":`${elemento.id}`,"action":"","name":"","description":"","state":state,"type":"","value":0};
-                let data1 = {"id":`${elemento.id}`,"state":state};
-                this.myf.requestPOST(`http://${this.ip_server}:8000/ver-dispositivos`,data1,this);
-                //console.log("img_"+elemento.id.split('_')[1]);
+                let data_sw = {"id":`${elemento.id}`,"state":state};
+                this.myf.requestPOST(`http://${this.ip_server}:8000/sw-dispositivos`,data_sw,this);
+
+                //--Cambia estado de imagen
                 if (state==true){
                     //if (data1.type)
-                    (<HTMLImageElement>this.myf.getElementById(`img_${elemento.id.split('_')[1]}`)).src="static/images/lamp_onoff_on.png";
+                    (<HTMLImageElement>this.myf.getElementById(`img_${elemento.id.split('_')[1]}`)).src="static/images/lamp_onoff_on2.png";
                 }else{
-                    (<HTMLImageElement>this.myf.getElementById(`img_${elemento.id.split('_')[1]}`)).src="static/images/lamp_onoff_off.png";
+                    (<HTMLImageElement>this.myf.getElementById(`img_${elemento.id.split('_')[1]}`)).src="static/images/lamp_onoff_off2.png";
                 }
-                //location.reload();
-                //this.view.showDevices(data1);
+
+                //--Refresca página
                 //this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
                 break;
             case "rang":
                 let sldvalue:string = (<HTMLInputElement>elemento).value;
-                let data2 = {"id":`${elemento.id}`,"value":`${sldvalue}`};
-                this.myf.requestPOST(`http://${this.ip_server}:8000/update-range`,data2,this); //deberie ir /value
+                let data_rg = {"id":`${elemento.id}`,"value":`${sldvalue}`};
+                this.myf.requestPOST(`http://${this.ip_server}:8000/update-range`,data_rg,this); //deberie ir /value
                 console.log(elemento.id.split('_')[1]);
                 console.log(sldvalue);
                 break;
@@ -148,12 +161,12 @@ let user = "TypesScript Users!";
 
 //=======[ Main module code ]==================================================
 
-function greeter(person) {
+/*function greeter(person) {
     return "Hello, " + person;
  }
  
  //document.body.innerHTML = greeter(user);
  
- console.log("Hola mundo");
+ console.log("Hola mundo");*/
 
 //=======[ End of file ]=======================================================

@@ -18,10 +18,6 @@ var mysql   = require('./mysql-connector');
 var myjson = require('./datos.json');
 var connectionMySQL = require('./mysql-connector');
 
-//--MQTT
-//var mqtt = require('mqtt');
-//var client  = mqtt.connect('192.168.1.20')
-
 // to parse application/json
 app.use(express.json()); 
 // to serve static files
@@ -29,7 +25,6 @@ app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
 app.get('/ver-dispositivos', function(req, res, next) {
-    //connectionMySQL.query('Select * from Devices where id=?',[req.params.id],function(err,respuesta){
     connectionMySQL.query('Select * from Devices',function(err,respuesta){
        if(err){
            res.send(err).status(400);
@@ -38,62 +33,39 @@ app.get('/ver-dispositivos', function(req, res, next) {
     });
 });
 
-/*app.get('/dispositivos', function(req, res, next) {
-    //let datosFiltrados=myjson.filter((itemDeLaLista)=>{
-     //   return itemDeLaLista.id==req.params.id;
-    //});
-    //res.json(datosFiltrados);
-    let id=req.query.id;
-    console.log(myjson);
-    res.json(myjson);
-
-    //response = "{ 'key1':'value2' }"
-    //res.send(JSON.stringify(response)).status(200);
-});*/
-
-
-
-/*app.get('/dispositivos/:id', function(req, res, next) {
-    let datosFiltrados=myjson.filter((itemDeLaLista)=>{
-        return itemDeLaLista.id==req.params.id;
-    });
-    res.json(datosFiltrados);
-    //let id=req.query.id;
-    //console.log(myjson[id-1]);
-    //res.json(myjson[id-1]);
-
-    //response = "{ 'key1':'value2' }"
-    //res.send(JSON.stringify(response)).status(200);
-});*/
-
-/*app.delete('/dispositivos'),function(req,res){
-
-}*/
-
-app.post ( '/ver-dispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
-    id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
-    let st=req.body.state;    //Obtengo el estado que me postea el cliente
+//--Guarda en BD el cambio de estado de dispositivo
+app.post ( '/sw-dispositivos', function(req,res){ 
+    //--Obtengo la id que me postea el cliente
+    id=parseInt(req.body.id.split('_')[1]);    
+    //--Obtengo el estado que me postea el cliente
+    let st=req.body.state;    
     //console.log(st,id);
-    //--guardar en database
+
+    //--Obtiene estado
     if (st==true){
         var stat=1;
     }else{
         stat=0;
     }  
     //console.log(stat,id);
+    //--Guarda en DB
     connectionMySQL.query('update Devices set state=? where id=?',[stat,id],function(err,respuesta){
         if(err){
             res.send(err).status(400);
         }
         res.send(respuesta).status(200);
      });
-
 });
-app.post ( '/update-range', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
-    id=parseInt(req.body.id.split('_')[1]);     //Obtengo la id que me postea el cliente
-    let value=req.body.value;    //Obtengo el estado que me postea el cliente
+
+//--Guarda en BD el cambio de rango (slider) de dispositivo (sólo para tipos 2 y 3)
+app.post ( '/update-range', function(req,res){ 
+    //--Obtengo la id que me postea el cliente
+    id=parseInt(req.body.id.split('_')[1]);     
+    //--Obtengo el estado que me postea el cliente
+    let value=req.body.value;    
     console.log("value"); 
     console.log(value,id);
+    //--Guarda en BD
     connectionMySQL.query('update Devices set value=? where id=?',[value,id],function(err,respuesta){
         if(err){
             res.send(err).status(400);
@@ -102,10 +74,13 @@ app.post ( '/update-range', function(req,res){ // /dispositivos/:id en el navega
      });
 
 });
+//--Elimina de BD dispositivo
 app.post ( '/del-dispositivos', function(req,res){ 
-    id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
+    //--Obtengo la id que me postea el cliente
+    id=parseInt(req.body.id.split('_')[1]);    
     //console.log(st,id); 
     //console.log(stat,id);
+    //--Realiza transacción en BD
     connectionMySQL.query('delete from Devices where id=?',[id],function(err,respuesta){
         if(err){
             res.send(err).status(400);
@@ -113,21 +88,24 @@ app.post ( '/del-dispositivos', function(req,res){
         res.send(respuesta).status(200);
      });
 });
-
-app.post ( '/add-dispositivos', function(req,res){ // /dispositivos/:id en el navegador->/dispositivos/1
-    let id=parseInt(req.body.id.split('_')[1]);    //Obtengo la id que me postea el cliente
+//--Agrega/edita dispositivos
+app.post ( '/add-dispositivos', function(req,res){
+    //--Obtengo la id que me postea el cliente
+    let id=parseInt(req.body.id.split('_')[1]);   
     let action = req.body.action;
     let nam = req.body.name;
-    let st = parseInt(req.body.state);    //Obtengo el estado que me postea el cliente
+    //--Obtengo el estado que me postea el cliente
+    let st = parseInt(req.body.state);    
     let desc = req.body.description;
     let typ = parseInt(req.body.type);
-    //--guardar en database
+    //--Determina acción (agregar/editar)
     if (action=="add"){
         if (st==true){
             var stat=1;
         }else{
             stat=0;
-        }  
+        } 
+        //--Agrega 
         connectionMySQL.query('insert into Devices (name, description, state, type) values (?,?,?,?)',[nam,desc,st,typ],function(err,respuesta){
             if(err){
                 res.send(err).status(400);
@@ -135,6 +113,7 @@ app.post ( '/add-dispositivos', function(req,res){ // /dispositivos/:id en el na
             res.send(respuesta).status(200);
         });
     }else{
+        //--Edita
         connectionMySQL.query('update Devices set name=?, description=?, type=?  where id=?',[nam,desc,typ,id],function(err,respuesta){
             if(err){
                 res.send(err).status(400);
@@ -144,10 +123,8 @@ app.post ( '/add-dispositivos', function(req,res){ // /dispositivos/:id en el na
     }
 
 });
-/*app.post('/dispositivos',function(req,res){
 
-})*/
-
+//--Inicia la aplicación
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly. Puerto: ",PORT);
 
