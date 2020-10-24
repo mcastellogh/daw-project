@@ -15,11 +15,18 @@ class ViewMainPage{
             //document.getElementById (`edit_${dev.id}`).addEventListener ("click",this.esc_evt);
             //this.myf.configEventLister("click","edit_1",this)  //("click", `edit_${dev.id}`, this);
             switch(parseInt(dev.type)){
-                case 0:
-                    img="static/images/lightbulb.png";
-                    break;
                 case 1:
-                    img="static/images/window.png";
+                    if (dev.state == "1"){
+                        img="static/images/lamp_onoff_on.png";
+                    }else{
+                        img="static/images/lamp_onoff_off.png";
+                    }
+                    break;
+                case 2:
+                        img="static/images/lamp_dimm.png";
+                        break;                    
+                case 3:
+                    img="static/images/persiana.png";
                     break;
             }
             lista_disp.innerHTML+=
@@ -29,12 +36,11 @@ class ViewMainPage{
                         <span><h5>${dev.id}</h5></span>
                     </div>
                     <div class="col l1 imagen-disp">    
-                        <img src=${img} alt="" class="circle myimg">
+                        <img id="img_${dev.id}" src=${img} alt="" class="myimg">
                     </div>
                     <div class="col l2">
                         <p id="name_${dev.id}" class="title boldName">${dev.name}</p>
                         <p id="desc_${dev.id}" class="title">${dev.description}</p>
-                        <p id="tipo_${dev.id}" class="title">${dev.type}</p>
                     </div>
                     <div class="col l5">
                         <div class="switch">
@@ -48,7 +54,7 @@ class ViewMainPage{
                         <div>
                             <div>
                                 <p class="range-field">
-                                    <input type="range" name="range" id="rang_${dev.id}" min="0" max="100" value="${dev.value}" />
+                                    <input type="range" name="range" id="rang_${dev.id}" min="0" max="100" value="${dev.value}"/>
                                 </p>
                             </div>
                         </div>
@@ -61,6 +67,10 @@ class ViewMainPage{
                     </div>
                 </div>
             </li>`;
+            if (parseInt(dev.type) == 1){
+                (<HTMLInputElement>document.getElementById(`rang_${dev.id}`)).disabled=true;
+                document.getElementById(`rang_${dev.id}`).style.opacity = "0.3";
+            }
                 
                 
                 /*`<li class="collection-item avatar">

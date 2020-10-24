@@ -30,29 +30,23 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
 
     handleEvent(evt:Event):void{
         let elemento:HTMLElement= this.myf.getElementByEvent(evt);
-        //let data:DeviceInt;
-        //console.log(elemento);
-        //console.log(`Se hizo click, evento: ${evt.type}`);
-        //console.log("HTMLEement:"+elemento.id);
         let ident:string = elemento.id.split('_')[0]
         console.log("Id del elemento escuchado:"+elemento.id);
         switch (ident){
             case "botonAdd":
                 console.log("Acceso a Modal con boton Add");
                 (<HTMLInputElement>this.myf.getElementById('tit_modal')).innerHTML="Agregar dispositivo";
-                (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value="";//<string>this.myf.getElementById(`name_${elemento.id.split('_')[1]}`).textContent;
-                (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value="";//<string>this.myf.getElementById(`desc_${elemento.id.split('_')[1]}`).textContent;
+                (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value="";
+                (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value="";
                 (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value=""
                 break;            
             case "modalacep":
                 //--Sale del Modal con boton Aceptar
-                //console.log("Se sale del Modal con boton Aceptar"+(<HTMLInputElement>this.myf.getElementById('tit_modal')).innerHTML);
                 let nombre:string = (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value;
                 let descripcion:string = (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value;
                 let tipo:string = (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value;
                 let id_mod:string=(<HTMLInputElement>this.myf.getElementById('id_dis')).value;
                 console.log(nombre,descripcion,tipo);
-                //let data = {"name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`};
                 let data:DeviceInt;
 
                 //-- Ver si sale de inserción o de adición de dispositivo
@@ -73,16 +67,10 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
             case "edit":
                 this.myf.getElementById('tit_modal').innerHTML="Editar dispositivo";
                 let idx:string=(<HTMLInputElement>this.myf.getElementById(`tipo_${elemento.id.split('_')[1]}`)).textContent;
-                //console.log((this.myf.getElementById(elemento.id)).textContent);
-                //console.log("select "+(<HTMLInputElement>this.myf.getElementById(`tipo_${elemento.id.split('_')[1]}`)).textContent);
-                //console.log("selection "+idx);//(<HTMLInputElement>this.myf.getElementById(`tipo_dis`)).value);
-                //console.log("Edicion de "+elemento.id.split('_')[1]);
                 (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value=<string>this.myf.getElementById(`name_${elemento.id.split('_')[1]}`).textContent;
                 (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value=<string>this.myf.getElementById(`desc_${elemento.id.split('_')[1]}`).textContent;
                 (<HTMLSelectElement>this.myf.getElementById('tipo_dis')).options[idx].selected=true;
                 (<HTMLInputElement>this.myf.getElementById('id_dis')).value=elemento.id;
-                //console.log((<HTMLSelectElement>this.myf.getElementById('tipo_dis')).options);
-
                 break;
             case "del":
                 console.log(elemento.id.split('_')[1]);
@@ -96,8 +84,19 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
             case "sw":
                 console.log(elemento.id.split('_')[1]);
                 let state:boolean = this.view.getSwitchStateById(elemento.id);
+                //let data1:DeviceInt = {"id":`${elemento.id}`,"action":"","name":"","description":"","state":state,"type":"","value":0};
                 let data1 = {"id":`${elemento.id}`,"state":state};
                 this.myf.requestPOST(`http://${this.ip_server}:8000/ver-dispositivos`,data1,this);
+                //console.log("img_"+elemento.id.split('_')[1]);
+                if (state==true){
+                    //if (data1.type)
+                    (<HTMLImageElement>this.myf.getElementById(`img_${elemento.id.split('_')[1]}`)).src="static/images/lamp_onoff_on.png";
+                }else{
+                    (<HTMLImageElement>this.myf.getElementById(`img_${elemento.id.split('_')[1]}`)).src="static/images/lamp_onoff_off.png";
+                }
+                //location.reload();
+                //this.view.showDevices(data1);
+                //this.myf.requestGET (`http://${this.ip_server}:8000/ver-dispositivos`,this);
                 break;
             case "rang":
                 let sldvalue:string = (<HTMLInputElement>elemento).value;
@@ -106,21 +105,7 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                 console.log(elemento.id.split('_')[1]);
                 console.log(sldvalue);
                 break;
-        }
-        /*if (elemento.id=="botonAdd"){
-            this.counter ++;
-            //b.textContent=`ClicK ${this.counter}`;
-            console.log(`Pulsacion nro: ${this.counter}`)
-        }else if (elemento.id==""){
-            console.log(`Pulsacion nro:`)
-        }else{
-            let state:boolean = this.view.getSwitchStateById(elemento.id);
-            let data={"id":`${elemento.id}`,"state":state};
-            //this.myf.requestPOST("https://cors-anywhere.herokuapp.com/https://postman-echo.com/post",data,this);
-            this.myf.requestPOST("http://192.168.1.41:8000/dispositivos",data,this);
-        }*/
-        
-        
+        }        
     }
     handleGETResponse(status:number, response:string):void{
         //--Respuesta del servidor con todos los dispositivos en BD
