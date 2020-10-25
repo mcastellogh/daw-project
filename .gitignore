@@ -89,4 +89,4 @@ typings/
 
 src/front/js/
 
-db/data/
+#db/data/

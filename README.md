@@ -169,7 +169,7 @@ El sistema dispone de la visualización de los dispositivos en una sección espe
 >- Botón borrar
 
 En la figura se muestran algunos dispositivos.
-![frontend](src/front/static/images/frontend1.png)
+![frontend](doc/frontend1.png)
 
 Para dar funcionalidad a los botones, se programaron para cada dispositivo los eventos listener utilizando la función `configEventLister`, que se ejecuta cuando se carga la colección de dispositivos.
 
@@ -248,14 +248,14 @@ Se muestra el código que se encarga de esta función.
     break;
 ```
 La figura muestra el modal para edición desplegado.
-![modal para edición](src/front/static/images/modal_edit.png)
+![modal para edición](doc/modal_edit.png)
 
 ## Evento Add
 Un botón con un signo + se muestra al inicio de la página. Al presionar este, despliega nuevamente el formulario modal, pero con el título correspondiente a la adición de un dispositivo. Se limpian todos los campos editables de este formulario.\
 Al presionar el botón `Aceptar` el sistema procederá de la misma forma que en el evento `editar`.
 
 La figura muestra el modal para agregar dispositivos desplegado.
-![modal para edición](src/front/static/images/modal_add.png)
+![modal para edición](doc/modal_add.png)
 
 # Backend
 Implementado en el archivo `index.js`.\
@@ -302,7 +302,7 @@ app.post ('/add-dispositivos', function(req,res){}
 # Base de datos
 Está implementada con el motor MySQL y consta de una tabla llamada `Devices` con la siguiente estructura.
 
-![Estructura de la base de datos](src/front/static/images/estructura_bd.png)
+![Estructura de la base de datos](doc/estructura_bd.png)
 
 El campo `id` está definido como clave primaria.\
 Los campos `name` y `description` son del tipo `varchar`.\
@@ -312,7 +312,7 @@ Se eligió para el campo value un entero, ya que se piensa que la variación de 
 
 Se muestran a continuación algunos datos guardados en la tabla
 
-![Daos en la tabla](src/front/static/images/dispositivos_bd.png)
+![Daos en la tabla](doc/dispositivos_bd.png)
 
 # Fallas conocidas
 >- Cuando se despliega el formulario modal, el elemento `select` no toma el valor que tienen en el dspositivo. Tampoco se ubica en el valor `0` (Seleccionar) cuando se despliega al agregar un dispositivo.
