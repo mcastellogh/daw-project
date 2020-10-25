@@ -31,6 +31,13 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
     }
 
     handleEvent(evt:Event):void{
+        /* 
+          TODO:
+          Optimizar en esta función el uso de las variables que llevan los datos
+          al backend para grabar en la base de datos. 
+          Se usan las variables data, data_sw, data_rg, data_del. 
+          Usar sólo la variable `data` que está definida con el tipo `DeviceInt`.
+        */
         let elemento:HTMLElement= this.myf.getElementByEvent(evt);
         let ident:string = elemento.id.split('_')[0]
         //console.log("Id del elemento escuchado:"+elemento.id);

@@ -14,6 +14,11 @@ Contenidos
   - [Evento editar](#evento-editar)
   - [Evento Add](#evento-add)
 - [Backend](#backend)
+  - [Busca dispositivos en la base de datos](#busca-dispositivos-en-la-base-de-datos)
+  - [Graba el cambio del switch en base de datos](#graba-el-cambio-del-switch-en-base-de-datos)
+  - [Graba el cambio del slider en base de datos](#graba-el-cambio-del-slider-en-base-de-datos)
+  - [Borra un dispositivo de la base de datos](#borra-un-dispositivo-de-la-base-de-datos)
+  - [Agrega un dispositivo a la base de datos](#agrega-un-dispositivo-a-la-base-de-datos)
 - [Base de datos](#base-de-datos)
 - [ToDo](#todo)
 - [Fallas conocidas](#fallas-conocidas)
@@ -243,8 +248,59 @@ La figura muestra el modal para agregar dispositivos desplegado.
 ![modal para edición](src/front/static/images/modal_add.png)
 
 # Backend
+Implementado en el archivo `index.js`.\
+Se verán los métodos encargados de guardar los datos provenientes del backend. Dado que la implementación de los métodos es bastante semejante entre sí, sólo se mostrarán los argumentos de los mismos.
+
+Para los métodos POST, se recojen del objeto `req.body`, las variables necesarias para hacer la consulta a la base de datos.\
+Es importante aclarar que para dar seguridad al sistema, se implementa la siguiente forma de enviar las variables cuando se hace la consulta (ejemplo para grabar el valor del slider de un dispositivo):
+
+```js
+connectionMySQL.query('update Devices set value=? where id=?',[value,id],function(err,respuesta)
+```
+Donde se observa que las variables son enviadas como parámetros separados y no envueltas en la string propia de la consulta.
+
+## Busca dispositivos en la base de datos
+```js
+app.get('/ver-dispositivos', function(req, res, next){}
+``` 
+
+## Graba el cambio del switch en base de datos
+
+```js
+app.post ('/sw-dispositivos', function(req,res){}
+```
+
+## Graba el cambio del slider en base de datos
+
+```js
+app.post ('/update-range', function(req,res){}
+```
+## Borra un dispositivo de la base de datos
+
+```js
+app.post ('/del-dispositivos', function(req,res){}
+```
+
+## Agrega un dispositivo a la base de datos
+
+```js
+app.post ('/add-dispositivos', function(req,res){}
+```
 
 # Base de datos
+Está implementada con el motor MySQL y consta de una tabla llamada `Devices` con la siguiente estructura.
+![Estructura de la base de datos](src/front/static/images/estructura_bd.png)
+
+El campo `id` está definido como clave primaria.\
+Los campos `name` y `description` son del tipo `varchar`.\
+Los campos `state`, `type` y `value` son del tipo entero.\
+El campo `value` maneja la potencia o la posición de los dispositivos tipo 2 y 3, lámpara dimerizable y persiana, respectivamente.
+
+Se eligió para el campo value un entero, ya que se piensa que la variación de la potencia de la lámpara o la posición de la persiana variarán entre el 0 y el 100%.
+
+Se muestran a continuación algunos datos guardados en la tabla
+
+![Daos en la tabla](src/front/static/images/dispositivos_bd.png)
 
 # ToDo
 La siguiente es una lista de las actividades por realizar.
@@ -253,14 +309,16 @@ La siguiente es una lista de las actividades por realizar.
 >- Incorporar al sitio un login con usuario y contraseña, para dar seguridad y tener la posibilidad de asignar roles de usuario.
 >- Optimizar las funciones app.post y app.get del backend enviando un accion determinada a realizar manteniendo la misma ruta.
 >- Implementar en el backend los métodos correspondientes (GET, POST, PUT, DELETE) para los eventos según las convenciones REST.
+>- Optimizar en la función `handleEvent` de `main.ts` el uso de las variables que llevan los datos al backend para grabar en la base de datos. Se usan las variables data, data_sw,data_rg, data_del. Usar sólo la variable `data` que está definida con el tipo `DeviceInt`.
 
 
 # Fallas conocidas
-
+>- Cuando se despliega el formulario modal, el elemento `select` no toma el valor que tienen en el dspositivo. Tampoco se ubica en el valor `0` (Seleccionar) cuando se despliega al agregar un dispositivo.
+>- Cuando se produce un cambio de estado ya sea en el switch o en el slider, no se refresca la página, por consiguiente no muestra en tiempo real el cambio de imágen de la lápara encendida o apagada.
 
 # Licence
 
 This project is published under GPLV3+ licence.
 
-![footer](doc/footer.png)
+
 
