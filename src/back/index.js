@@ -34,7 +34,7 @@ app.get('/ver-dispositivos', function(req, res, next) {
 });
 
 //--Guarda en BD el cambio de estado de dispositivo
-app.post ( '/sw-dispositivos', function(req,res){ 
+app.post ('/sw-dispositivos', function(req,res){ 
     //--Obtengo la id que me postea el cliente
     id=parseInt(req.body.id.split('_')[1]);    
     //--Obtengo el estado que me postea el cliente
@@ -42,14 +42,14 @@ app.post ( '/sw-dispositivos', function(req,res){
     //console.log(st,id);
 
     //--Obtiene estado
-    if (st==true){
+    /*if (st==true){
         var stat=1;
     }else{
         stat=0;
-    }  
+    } */
     //console.log(stat,id);
     //--Guarda en DB
-    connectionMySQL.query('update Devices set state=? where id=?',[stat,id],function(err,respuesta){
+    connectionMySQL.query('update Devices set state=? where id=?',[(st==true?1:0),id],function(err,respuesta){
         if(err){
             res.send(err).status(400);
         }
@@ -58,7 +58,7 @@ app.post ( '/sw-dispositivos', function(req,res){
 });
 
 //--Guarda en BD el cambio de rango (slider) de dispositivo (sólo para tipos 2 y 3)
-app.post ( '/update-range', function(req,res){ 
+app.post ('/update-range', function(req,res){ 
     //--Obtengo la id que me postea el cliente
     id=parseInt(req.body.id.split('_')[1]);     
     //--Obtengo el estado que me postea el cliente
@@ -75,7 +75,7 @@ app.post ( '/update-range', function(req,res){
 
 });
 //--Elimina de BD dispositivo
-app.post ( '/del-dispositivos', function(req,res){ 
+app.post ('/del-dispositivos', function(req,res){ 
     //--Obtengo la id que me postea el cliente
     id=parseInt(req.body.id.split('_')[1]);    
     //console.log(st,id); 
@@ -89,7 +89,7 @@ app.post ( '/del-dispositivos', function(req,res){
      });
 });
 //--Agrega/edita dispositivos
-app.post ( '/add-dispositivos', function(req,res){
+app.post ('/add-dispositivos', function(req,res){
     //--Obtengo la id que me postea el cliente
     let id=parseInt(req.body.id.split('_')[1]);   
     let action = req.body.action;

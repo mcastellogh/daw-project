@@ -17,14 +17,18 @@ class ViewMainPage{
             switch(parseInt(dev.type)){
                 case 1:
                     if (dev.state == "1"){
-                        img="static/images/lamp_onoff_on2.png";
+                        img="static/images/lamp_onoff_on.png";
                     }else{
-                        img="static/images/lamp_onoff_off2.png";
+                        img="static/images/lamp_onoff_off.png";
                     }
                     break;
                 case 2:
-                        img="static/images/lamp_dimm2.png";
-                        break;                    
+                    if (dev.state == "1"){
+                        img="static/images/lamp_dimm_on.png";
+                    }else{
+                        img="static/images/lamp_dimm_off.png";
+                    }
+                    break;
                 case 3:
                     img="static/images/persiana2.png";
                     break;
