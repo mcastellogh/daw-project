@@ -10,9 +10,13 @@ Contenidos
   - [Comandos útiles de docker-compose](#comandos-útiles-de-docker-compose)
 - [Diagrama conceptual de la aplicación](#diagrama-conceptual-de-la-aplicación)
 - [Frontend](#frontend)
+  - [Evento SW](#evento-sw)
+  - [Evento editar](#evento-editar)
+  - [Evento Add](#evento-add)
 - [Backend](#backend)
 - [Base de datos](#base-de-datos)
 - [ToDo](#todo)
+- [Fallas conocidas](#fallas-conocidas)
 - [Licence](#licence)
 
 # Infraestructura
@@ -139,6 +143,104 @@ Se incluyeron en este diagrama, a modo de ejemplo, dos consultas (get y post) pa
 ![Diagrama conceptual](doc/DAW_concept.png)
 
 # Frontend
+El sistema dispone de la visualización de los dispositivos en una sección especial que incorpora la clase `collection` del framework Materialize. En esta sección, se muestran los detalles de los mismos. Esto son:
+
+>- Número de dispositivo
+>- Nombre
+>- Descripción
+>- Switch para encendido o apagado
+>- Slider para asignar un rango de valores de 0 a 100 (sólo en caso de lámparas dimerizables o persianas)
+>- Botón editar
+>- Botón borrar
+
+En la figura se muestran algunos dispositivos.
+![frontend](src/front/static/images/frontend1.png)
+
+Para dar funcionalidad a los botones, se programaron para cada dispositivo los eventos listener utilizando la función `configEventLister`, que se ejecuta cuando se carga la colección de dispositivos.
+
+```js
+        //--Arma las escuchas de los clicks
+        for(let d of data){
+            //--Escucha switch on/off
+            this.myf.configEventLister ("click", `sw_${d.id}`, this);
+            //--Escucha boton edición dispositivo
+            this.myf.configEventLister ("click", `edit_${d.id}`, this);
+            //--Escucha boton borrar dispositivo
+            this.myf.configEventLister ("click", `del_${d.id}`, this);
+            //--Escucha slider dispositivo
+            this.myf.configEventLister ("change", `rang_${d.id}`, this);
+            //--Escucha apertura de modal
+            this.myf.configEventLister ("click", "modal1", this);
+        }
+```
+
+Los siguientes fragmentos de código forman parte de la función principal `handleEvent` que atiende los eventos solicitados por el usuario, para ello, se implementa un `switch` con un `case` para cada evento. Se describirán a continuación cada uno de ellos:
+
+## Evento SW
+Cuando se presiona el botón para cambiar el estado de un dispositivo (on/off), el sistema escucha este evento y graba este nuevo estado en la base de datos. El código es el siguiente:
+
+```js
+case "sw":
+  //--Cambia estado del Switch del dispositivo
+  let state:boolean = this.view.getSwitchStateById(elemento.id);
+  let data_sw = {"id":`${elemento.id}`,"state":state};
+  this.myf.requestPOST(`http://${this.ip_server}:8000/sw-dispositivos`,data_sw,this);            
+  break;
+```
+## Evento editar
+
+Cuando se presiona el botón `editar` de un determinado dispositivo, se despliega un formulario modal que muestra los valores para ese dispositivo. Los valores editables son:
+>- Nombre
+>- Descripción
+>- Tipo
+
+El código siguiente carga en el modal los valores del dispositivo a editar
+
+```js
+  case "edit":
+    //--Título del modal
+    this.myf.getElementById('tit_modal').innerHTML='Editar dispositivo';
+    //--Trae los valores del dispositivo al modal
+    (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value=<string>this.myf.getElementById(`name_${elemento.id.split('_')[1]}`).textContent;
+    (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value=<string>this.myf.getElementById(`desc_${elemento.id.split('_')[1]}`).textContent;              
+    //--Guarda la id del dispositivo en el modal 
+    (<HTMLInputElement>this.myf.getElementById('id_dis')).value=elemento.id;
+    break;
+```
+
+Luego, al presiona el botón `Aceptar`, el sistema sale del formulario modal y debe determinar si se editó o agregó un dispositivo, luego guarda estos valores en base de datos.\
+Se muestra el código que se encarga de esta función.
+
+```js
+  case "modalacep":
+    //--Sale del Modal con boton Aceptar asignando los valores de los campos
+    let nombre:string = (<HTMLInputElement>this.myf.getElementById('nombre_dis')).value;
+    let descripcion:string = (<HTMLInputElement>this.myf.getElementById('descrip_dis')).value;
+    let tipo:string = (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value;
+    let id_mod:string=(<HTMLInputElement>this.myf.getElementById('id_dis')).value;
+    //-- Ver si sale de inserción o de adición de dispositivo
+    let context_modal:string = (<HTMLBodyElement>this.myf.getElementById('tit_modal')).innerHTML;
+    if(context_modal=="Editar dispositivo"){
+      //--edita
+      console.log("id:"+id_mod);
+      data = {"id":`${id_mod}`,"action":"edit","name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`,"value":0};  
+    }else{
+      //--agrega
+      data = {"id":"","action":"add","name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`,"value":0};             
+    }
+    //--Graba nuevo dispositivo en BD
+    this.myf.requestPOST(`http://${this.ip_server}:8000/add-dispositivos`,data,this);
+    break;
+```
+La figura muestra el modal para edición desplegado.
+![modal para edición](src/front/static/images/modal_edit.png)
+
+## Evento Add
+Un botón con un signo + se muestra al inicio de la página. Al presionar este, despliega nuevamente el formulario modal, pero con el título correspondiente a la adición de un dispositivo. Se borran todos los campos editables de este formulario.\
+Al presionar el botón `Aceptar` el sistema procederá de la misma forma que en el evento `editar`.
+
+La figura muestra el modal para agregar dispositivos desplegado.
+![modal para edición](src/front/static/images/modal_add.png)
 
 # Backend
 
@@ -150,6 +252,10 @@ La siguiente es una lista de las actividades por realizar.
 >- Instalar nginx y configurarlo para que el acceso al sitio sea a través de protocolo de seguridad (TLS).
 >- Incorporar al sitio un login con usuario y contraseña, para dar seguridad y tener la posibilidad de asignar roles de usuario.
 >- Optimizar las funciones app.post y app.get del backend enviando un accion determinada a realizar manteniendo la misma ruta.
+>- Implementar en el backend los métodos correspondientes (GET, POST, PUT, DELETE) para los eventos según las convenciones REST.
+
+
+# Fallas conocidas
 
 
 # Licence
