@@ -17,12 +17,15 @@ interface DeviceInt{
 }
 
 class Main implements EventListenerObject,GETResponseListener, POSTResponseListener {
-  myf:MyFramework;
-  view:ViewMainPage;
-  counter:number=0;
-  dispositivos:DeviceInt[];
-  //dispositivos:DeviceInt;
-  ip_server:string = "192.168.1.41";
+    myf:MyFramework;
+    view:ViewMainPage;
+    counter:number=0;
+    dispositivos:DeviceInt[];
+    //--Habilitar para contexto docente
+    ip_server:string = "localhost";
+    //--Habilitar para contexto desarrollo
+    //ip_server:string = "192.168.1.41";
+  
     main():void{
         this.myf = new MyFramework();
         this.view=new ViewMainPage(this.myf);
