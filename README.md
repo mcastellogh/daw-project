@@ -29,7 +29,7 @@ Hostname: `miot`\
 SO: `Debian GNU/Linux 10`\
 Acceso externo: http://mcastello.dyndns.org:8000
 
-**Aclaraciónes importantes:**
+**Aclaraciones importantes:**
 * Como este sistema está implementado en un servidor, se dispone de una forma para que los docentes puedan ejecutarlo como fue solicitado con sólo el comando `docker-compose up`\
 Para ello se definió la variable `ip_server` en el archivo `main.ts`.\
 Para la ejecución en un contexto docente esta variable se establecerá con el valor `localhost`:
@@ -170,7 +170,7 @@ El sistema dispone de la visualización de los dispositivos en una sección espe
 >- Botón editar
 >- Botón borrar
 
-En la figura se muestran algunos dispositivos.
+En la figura se muestra la página inicial con algunos dispositivos y el botón para agregar.
 ![frontend](doc/frontend1.png)
 
 Para dar funcionalidad a los botones, se programaron para cada dispositivo los eventos listener utilizando la función `configEventLister`, que se ejecuta cuando se carga la colección de dispositivos.
@@ -191,7 +191,7 @@ Para dar funcionalidad a los botones, se programaron para cada dispositivo los e
         }
 ```
 
-Los siguientes fragmentos de código forman parte de la función principal `handleEvent` que atiende los eventos solicitados por el usuario, para ello, se implementa un `switch` con un `case` para cada evento. Se describirán a continuación cada uno de ellos:
+Los siguientes fragmentos de código forman parte de la función `handleEvent` que atiende los eventos solicitados por el usuario, para ello, se implementa un `switch` con un `case` para cada evento. Se describirán a continuación cada uno de ellos:
 
 ## Evento SW
 Cuando se presiona el botón para cambiar el estado de un dispositivo (on/off), el sistema escucha este evento y graba este nuevo estado en la base de datos. El código es el siguiente:
@@ -326,7 +326,7 @@ La siguiente es una lista de las actividades por realizar.
 
 >- Instalar nginx y configurarlo para que el acceso al sitio sea a través de protocolo de seguridad (TLS).
 >- Incorporar al sitio un login con usuario y contraseña, para dar seguridad y tener la posibilidad de asignar roles de usuario.
->- Optimizar las funciones app.post y app.get del backend enviando un accion determinada a realizar manteniendo la misma ruta.
+>- Optimizar las funciones app.post y app.get del backend enviando un accion determinada a realizar manteniendo la misma ruta. :ok:
 >- Implementar en el backend los métodos correspondientes (GET, POST, PUT, DELETE) para los eventos según las convenciones REST.
 >- Optimizar en la función `handleEvent` de `main.ts` el uso de las variables que llevan los datos al backend para grabar en la base de datos. Se usan las variables data, data_sw,data_rg, data_del. Usar sólo la variable `data` que está definida con el tipo `DeviceInt`.
 
