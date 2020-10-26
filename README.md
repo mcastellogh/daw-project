@@ -29,10 +29,12 @@ Hostname: `miot`\
 SO: `Debian GNU/Linux 10`\
 Acceso externo: http://mcastello.dyndns.org:8000
 
-**Aclaración importante:**\
-Como este sistema está implementado en un servidor, se dispone de una forma para que los docentes puedan ejecutarlo como fue solicitado con sólo el comando `docker-compose up`\
+**Aclaraciónes importantes:**
+* Como este sistema está implementado en un servidor, se dispone de una forma para que los docentes puedan ejecutarlo como fue solicitado con sólo el comando `docker-compose up`\
 Para ello se definió la variable `ip_server` en el archivo `main.ts`.\
 Para la ejecución en un contexto docente esta variable se establecerá con el valor `localhost`:
+
+* Dado que se realizó una modificación en la estructura de la tabla `Devices`, se permitió guardar en el repositorio el archivo `db/data/` donde se almacenan los datos y las estrucuturas de las tablas. Para ello se descomentó la línea 92 del archivo `.gitignore`.
 
 ```js
 ip_server:string = "localhost";
@@ -307,7 +309,7 @@ Está implementada con el motor MySQL y consta de una tabla llamada `Devices` co
 El campo `id` está definido como clave primaria.\
 Los campos `name` y `description` son del tipo `varchar`.\
 Los campos `state`, `type` y `value` son del tipo entero.\
-El campo `value` maneja la potencia o la posición de los dispositivos tipo 2 y 3, lámpara dimerizable y persiana, respectivamente.\
+Se agregó el campo `value` a la tabla. Este campo maneja la potencia o la posición de los dispositivos tipo 2 y 3, lámpara dimerizable y persiana, respectivamente.\
 Se eligió para el campo value un entero, ya que se piensa que la variación de la potencia de la lámpara o la posición de la persiana variarán entre el 0 y el 100%.
 
 Se muestran a continuación algunos datos guardados en la tabla

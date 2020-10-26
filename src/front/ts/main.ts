@@ -62,12 +62,12 @@ class Main implements EventListenerObject,GETResponseListener, POSTResponseListe
                 let tipo:string = (<HTMLInputElement>this.myf.getElementById('tipo_dis')).value;
                 let id_mod:string=(<HTMLInputElement>this.myf.getElementById('id_dis')).value;
                 let data:DeviceInt;
-
+                console.log(tipo);
                 //-- Ver si sale de inserción o de adición de dispositivo
                 let context_modal:string = (<HTMLBodyElement>this.myf.getElementById('tit_modal')).innerHTML;
                 if(context_modal=="Editar dispositivo"){
                     //--edita
-                    console.log("id:"+id_mod);
+                    //console.log("id:"+id_mod);
                     data = {"id":`${id_mod}`,"action":"edit","name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`,"value":0};  
                 }else{
                     //--agrega

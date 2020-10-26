@@ -98,6 +98,7 @@ app.post ('/add-dispositivos', function(req,res){
     let st = parseInt(req.body.state);    
     let desc = req.body.description;
     let typ = parseInt(req.body.type);
+    let valor = parseInt(req.body.value);
     //--Determina acción (agregar/editar)
     if (action=="add"){
         if (st==true){
@@ -106,7 +107,7 @@ app.post ('/add-dispositivos', function(req,res){
             stat=0;
         } 
         //--Agrega 
-        connectionMySQL.query('insert into Devices (name, description, state, type) values (?,?,?,?)',[nam,desc,st,typ],function(err,respuesta){
+        connectionMySQL.query('insert into Devices (name, description, state, type, value) values (?,?,?,?,?)',[nam,desc,st,typ,valor],function(err,respuesta){
             if(err){
                 res.send(err).status(400);
             }
